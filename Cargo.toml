@@ -1,0 +1,6 @@
+[package]
+name = "kwon-vm"
+version = "0.1.0"
+authors = ["Andreas Fischer <home@deviru.de>"]
+
+[dependencies]
