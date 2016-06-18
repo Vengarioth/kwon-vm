@@ -36,34 +36,37 @@ Instruction::new(Op::Add, 0, 1, 2);
 ## Instructions
 
 ### Assignment
+---
 #### Assign
 ##### Code representation:
 ```
 t2 = t1
 ```
+---
 
 ### Arithmetic
-
+---
 #### Add
 ##### Code representation:
 ```
 t3 = t2 + t1
 ```
-
+---
 #### Sub
 ##### Code representation:
 ```
 t3 = t2 - t1
 ```
-
+---
 #### Mul
 ##### Code representation:
 ```
 t3 = t2 * t1
 ```
-
+---
 #### Div
 ##### Code representation:
 ```
 t3 = t2 / t1
 ```
+---
