@@ -37,9 +37,9 @@ The data located at this address will be a compressed number representing the le
 
 #### Layout
 
-|string_id|address|
-|-|-|
-|u32|u32|
+|string_id  |address  |
+|-----------|---------|
+|u32        |u32      |
 
 #### Integer Ids
 
