@@ -9,12 +9,12 @@ Kwon Assembly Files should use the `.kas` file extension.
 ### Header
 The first section of the assembly file contains a header with a list of addresses for each of the following sections. The layout is optimized for compactness.
 
-|name|index|
-|-|-|
-|string_ids|0|
-|integer_ids|1|
-|floating_point_ids|2|
-|data|3|
+|name               |index  |
+|-------------------|-------|
+|string_ids         |0      |
+|integer_ids        |1      |
+|floating_point_ids |2      |
+|data               |3      |
 
 #### An Example
 This list of addresses would mean string_ids is located 14 bytes into the file, integer_ids is located 25 bytes into the file and so on.
