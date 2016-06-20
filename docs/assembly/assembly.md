@@ -14,7 +14,8 @@ The first section of the assembly file contains a header with a list of addresse
 |string_ids         |0      |
 |integer_ids        |1      |
 |floating_point_ids |2      |
-|data               |3      |
+|function_ids       |3      |
+|data               |4      |
 
 #### An Example
 This list of addresses would mean string_ids is located 14 bytes into the file, integer_ids is located 25 bytes into the file and so on.
@@ -46,6 +47,10 @@ The data located at this address will be a compressed number representing the le
 same as string_ids
 
 #### Floating Point Ids
+
+same as string_ids
+
+#### Function Ids
 
 same as string_ids
 

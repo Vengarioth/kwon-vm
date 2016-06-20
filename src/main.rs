@@ -4,22 +4,19 @@ use kwon_vm::*;
 
 fn main() {
 
-    let code = vec![
-        // assign a value to t0
-        Instruction::new(Op::Assign, 1337, 0, 0),
-        // assign a value to t1
-        Instruction::new(Op::Assign, 1234, 1, 0),
-        // add t0 and t1 and assign it to t2
-        Instruction::new(Op::Add, 0, 1, 2),
-        // debug t2
-        Instruction::new(Op::Debug, 2, 0, 0),
-        // terminate
-        Instruction::new(Op::Exit, 0, 0, 0)
-    ];
+    println!("creating new assembly");
+    let mut assembly = Assembly::new();
 
-    let assembly = Assembly::new(code);
+    println!("adding a string");
+    assembly.add_string("this is just a tribute");
+    assembly.add_string("you got to believe me");
+    assembly.add_string("and i wish you were there");
+    assembly.add_string("just a matter of opinion");
 
-    let mut vm = VirtualMachine::new(assembly);
+    println!("write assembly to disk");
+    assembly.write_to("/Users/vengarioth/Workspace/kwon/test_assembly.kas");
 
-    vm.run();
+    println!("load assembly from disk");
+    let assembly2 = Assembly::load_from("/Users/vengarioth/Workspace/kwon/test_assembly.kas");
+
 }
