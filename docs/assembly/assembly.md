@@ -4,6 +4,9 @@ An assembly is a file containing a program in intermediate representation ready 
 ## File extension
 Kwon Assembly Files should use the `.kas` file extension.
 
+## Endianess
+Kwon Assembly Files store numbers in `little endianess` where applicable.
+
 ## Contents
 
 ### Header
