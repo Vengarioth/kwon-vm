@@ -1,5 +1,5 @@
 use std::fs;
-use kwon_vm::*;
+use kwon_vm::data::assembly::*;
 
 #[test]
 fn create_assembly_with_strings() {

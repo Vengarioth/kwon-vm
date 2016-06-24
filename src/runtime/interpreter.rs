@@ -1,35 +1,52 @@
-use assembly::Assembly;
 use runtime::op::Op;
 
-pub struct Interpreter {
+pub trait ConstantPool {
+    fn fetch_string(&self, string_id: u32) -> Result<&[u8], &'static str>;
+    fn fetch_constant(&self, constant_id: u32) -> Result<&[u8], &'static str>;
+    fn fetch_function(&self, function_id: u32) -> Result<&[u8], &'static str>;
+}
+
+pub trait RegisterAllocator {
+    fn set(&mut self, register: u32, value: u32) -> Result<(), &'static str>;
+    fn get(&self, register: u32) -> Result<u32, &'static str>;
+    fn get_register_count(&self) -> u32;
+}
+
+pub trait ObjectAllocator {
+
+}
+
+pub struct Interpreter<R: RegisterAllocator, C: ConstantPool, O: ObjectAllocator> {
     program_pointer: u32,
     operation: Op,
     address1: u32,
     address2: u32,
     address3: u32,
-    register: [u32; 16]
+    scalar: u32,
+    constants: C,
+    register: R,
+    objects: O
 }
 
-impl Interpreter {
+impl<R: RegisterAllocator, C: ConstantPool, O: ObjectAllocator> Interpreter<R, C, O> {
 
-    pub fn new() -> Interpreter {
+    pub fn new(register_allocator: R, constant_pool: C, object_allocator: O) -> Interpreter<R, C, O> {
         return Interpreter {
             program_pointer: 0,
             operation: Op::Nop,
             address1: 0,
             address2: 0,
             address3: 0,
-            register: [0; 16]
+            scalar: 0,
+            constants: constant_pool,
+            register: register_allocator,
+            objects: object_allocator
         };
     }
 
     #[inline(always)]
-    pub fn fetch(&mut self, assembly: &Assembly) {
-        let x = assembly.get_instruction(self.program_pointer);
-        self.operation = x.op;
-        self.address1 = x.arg1;
-        self.address2 = x.arg2;
-        self.address3 = x.arg3;
+    pub fn fetch(&mut self) {
+
     }
 
     #[inline(always)]
@@ -43,30 +60,30 @@ impl Interpreter {
         match self.operation {
             Op::Nop => {}
             Op::Assign => {
-                self.register[self.address2 as usize] = self.address1;
+                self.register.set(self.address2, self.address1).unwrap();
             }
             Op::Add => {
-                let t1 = self.register[self.address1 as usize];
-                let t2 = self.register[self.address2 as usize];
-                self.register[self.address3 as usize] = t2 + t1;
+                let t1 = self.register.get(self.address1).unwrap();
+                let t2 = self.register.get(self.address2).unwrap();
+                self.register.set(self.address3, t2 + t1).unwrap();
             }
             Op::Sub => {
-                let t1 = self.register[self.address1 as usize];
-                let t2 = self.register[self.address2 as usize];
-                self.register[self.address3 as usize] = t2 - t1;
+                let t1 = self.register.get(self.address1).unwrap();
+                let t2 = self.register.get(self.address2).unwrap();
+                self.register.set(self.address3, t2 - t1).unwrap();
             }
             Op::Mul => {
-                let t1 = self.register[self.address1 as usize];
-                let t2 = self.register[self.address2 as usize];
-                self.register[self.address3 as usize] = t2 * t1;
+                let t1 = self.register.get(self.address1).unwrap();
+                let t2 = self.register.get(self.address2).unwrap();
+                self.register.set(self.address3, t2 * t1).unwrap();
             }
             Op::Div => {
-                let t1 = self.register[self.address1 as usize];
-                let t2 = self.register[self.address2 as usize];
-                self.register[self.address3 as usize] = t2 / t1;
+                let t1 = self.register.get(self.address1).unwrap();
+                let t2 = self.register.get(self.address2).unwrap();
+                self.register.set(self.address3, t2 / t1).unwrap();
             }
             Op::Debug => {
-                println!("Debug: {}", self.register[self.address1 as usize]);
+                println!("Debug: {}", self.register.get(self.address1).unwrap());
             }
             Op::Exit => {
                 continue_execution = false;
