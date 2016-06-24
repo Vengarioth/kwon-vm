@@ -9,8 +9,12 @@ The debugger will implement a binary protocol and expose itself on a TCP port if
 
 # The VM
 
+## The pipeline
+`your language` > `your compiler` > `kwon IR` > `kwon compiler` > `kwon IR (optimized)` > `kwon-vm`
+
 A brief list of ideas
 
+* An optimizing compiler similar to LLVM for Kwon IR
 * Infinite Register Machine / graph coloring for register allocation
 * Three Address Code
 * Trace JIT

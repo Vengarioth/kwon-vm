@@ -1,4 +1,4 @@
-mod data;
+pub mod data;
 mod runtime;
 mod assembly;
 mod virtual_machine;
