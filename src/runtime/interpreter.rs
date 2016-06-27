@@ -13,7 +13,7 @@ pub trait RegisterAllocator {
 }
 
 pub trait ObjectAllocator {
-
+    fn allocate_structure(structure_type: u32) -> Result<u32, &'static str>;
 }
 
 pub struct Interpreter<R: RegisterAllocator, C: ConstantPool, O: ObjectAllocator> {
