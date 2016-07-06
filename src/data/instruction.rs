@@ -27,4 +27,8 @@ impl Instruction {
         let scalar: u16 = u16::from_le(unsafe { transmute(scalar_data) });
         return scalar;
     }
+
+    pub fn get_binary(&self) -> [u8; 4] {
+        return [self.op, self.arg1, self.arg2, self.target];
+    }
 }

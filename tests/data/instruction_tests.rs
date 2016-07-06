@@ -22,7 +22,7 @@ fn create_scalar_instruction() {
 #[test]
 fn create_from_binary() {
     let binary: [u8; 4] = [4, 5, 6, 7];
-    
+
     let instruction = Instruction::from_binary(&binary[0..4]);
 
     assert_eq!(instruction.op, 4);

@@ -7,9 +7,20 @@ pub struct MemoryRegisterAllocator {
     reg3: u32
 }
 
+impl MemoryRegisterAllocator {
+    pub fn new() -> MemoryRegisterAllocator {
+        return MemoryRegisterAllocator {
+            reg0: 0,
+            reg1: 1,
+            reg2: 2,
+            reg3: 3
+        };
+    }
+}
+
 impl RegisterAllocator for MemoryRegisterAllocator {
     fn set(&mut self, register: u32, value: u32) -> Result<(), &'static str> {
-        match(register) {
+        match register {
             0 => {
                 self.reg0 = value;
                 return Ok(());
@@ -33,7 +44,7 @@ impl RegisterAllocator for MemoryRegisterAllocator {
     }
 
     fn get(&self, register: u32) -> Result<u32, &'static str> {
-        match(register) {
+        match register {
             0 => {
                 return Ok(self.reg0);
             }

@@ -20,5 +20,5 @@ fn create_assembly_with_strings() {
 
     assert_eq!(assembly2.get_string(string_address).unwrap(), string_utf8);
 
-    fs::remove_file("./test_assembly.kas");
+    fs::remove_file("./test_assembly.kas").unwrap();
 }

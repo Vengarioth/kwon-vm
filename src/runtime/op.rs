@@ -10,5 +10,14 @@ pub enum Op {
     Mul,
     Div,
     Debug,
-    Exit
+    Exit,
+
+    Increment,          //inc x
+    Decrement,          //dec x
+
+    Jump,               //jump x
+    JumpOnEquality,     //if x == y jump z
+    JumpOnInequality,   //if x != y jump z
+    JumpIfGreater,      //if x > y jump z
+    JumpIfLess,         //if x < y jump z
 }
