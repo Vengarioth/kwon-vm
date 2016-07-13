@@ -28,7 +28,7 @@ impl ObjectAddressList {
     }
 
     /// stores an object and returns a unique identifier
-    pub fn store_object(&mut self, memory_address: *const u8) -> Result<u32, &'static str> {
+    pub fn store_memory_address(&mut self, memory_address: *const u8) -> Result<u32, &'static str> {
         let object_address: u32;
         if self.unused.len() > 0 {
             object_address = self.unused.pop().unwrap();
@@ -76,7 +76,7 @@ mod tests {
         let x: u8 = 5;
         let mem_address = &x as *const u8;
 
-        let address = address_list.store_object(mem_address).unwrap();
+        let address = address_list.store_memory_address(mem_address).unwrap();
 
         assert_eq!(mem_address, address_list.get_memory_address(address).unwrap());
         assert_eq!(5, unsafe { *address_list.get_memory_address(address).unwrap() });
@@ -97,7 +97,7 @@ mod tests {
         let y: u8 = 10;
         let mem_address_two = &y as *const u8;
 
-        let address = address_list.store_object(mem_address).unwrap();
+        let address = address_list.store_memory_address(mem_address).unwrap();
         address_list.update_memory_address(address, mem_address_two);
 
         assert_eq!(mem_address_two, address_list.get_memory_address(address).unwrap());
@@ -110,7 +110,7 @@ mod tests {
         let x: u8 = 5;
         let mem_address = &x as *const u8;
 
-        let address = address_list.store_object(mem_address).unwrap();
+        let address = address_list.store_memory_address(mem_address).unwrap();
 
         address_list.clear_object(address);
 
@@ -129,10 +129,10 @@ mod tests {
         let mem_address_three = &val_three as *const u8;
         let mem_address_four = &val_four as *const u8;
 
-        let address_one = address_list.store_object(mem_address_one).unwrap();
-        let address_two = address_list.store_object(mem_address_two).unwrap();
-        let address_three = address_list.store_object(mem_address_three).unwrap();
-        let address_four = address_list.store_object(mem_address_four).unwrap();
+        let address_one = address_list.store_memory_address(mem_address_one).unwrap();
+        let address_two = address_list.store_memory_address(mem_address_two).unwrap();
+        let address_three = address_list.store_memory_address(mem_address_three).unwrap();
+        let address_four = address_list.store_memory_address(mem_address_four).unwrap();
 
         assert_eq!(5, unsafe { *address_list.get_memory_address(address_one).unwrap() });
         assert_eq!(3, unsafe { *address_list.get_memory_address(address_two).unwrap() });
