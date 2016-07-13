@@ -1,125 +1,53 @@
-# Memory
+# Kwon Memory Model
 
-## Primitives
+## Preface
 
-### Integer Types
+Kwon VM features a garbage collected memory model. Influenced by the [LuaJit model](http://wiki.luajit.org/New-Garbage-Collector).
 
-|Keyword|Name|Size|Signed|Min value|Max value|
-|-|-|-|-|-|-|
-|bool|Boolean|1 bit|no|0|1|
-|u8|Byte|1 byte|no|0|255|
-|i8|Signed Byte|1 byte|yes|-128|127|
-|u16|Unsigned Short|4 bytes|no|0|65535|
-|i16|Short|4 bytes|yes|-32768|32767|
-|u32|Unsigned Integer|8 bytes|no|0|4294967295|
-|i32|Integer|8 bytes|yes|-2147483648|2147483647|
-|u64|Unsigned Long Integer|16 bytes|no|0|18446744073709551615|
-|i64|Long Integer|16 bytes|yes|-9223372036854775808|9223372036854775807|
+## Memory
 
-### Floating Point Types
-|Keyword|Name|Size|Precision|
-|-|-|-|-|
-|float|Floating Point Number|8 bytes|?|
-|double|Double Length Floating Point Number|16 bytes|?|
+Memory is managed in big, aligned regions. A region is directly requested from the operating system. All regions have the same size.
 
-## Types
+### Regions
 
-### Type Definition
+A Region is an allocated block of memory, containing a metadata and a data area. The metadata area describes how the data area is used. The data area is split into blocks. A block contains one or more 16 byte cells.
 
-```
-type_definition {
-  u32 type_id;
-  u16 type_size;
-}
-```
+#### Sizes
+| Type | Size |
+|------|------|
+| Region | Any power of two between 64kb and 1mb |
+| Metadata | 1/64th of the Region's size |
+| Block | 1 or more Cells |
+| Cell | 16 bytes |
 
-### Structure Definition
-```
-structure_definition {
-  u32                structure_id;
-  u16                type_size;
-  u8                 field_count;
-  field_definition[] field_definition
-}
-```
+### Pointers
 
-### Field Definition
-```
-field_definition {
-  u8      field_id;
-  pointer type_definition;
-}
-```
+| 16 bits | 16 bits |
+|-|-|
+| region address | address within region |
 
-## Structures
+-----
 
 ```
-{
-  pointer structure_definition;
-  [member_data];
-}
-```
+collection_pressure
+fragmentation_pressure
 
-```
-struct my_struct {
-  int some_number;
-  string some_string;
-  int[] some_int_array;
-}
-```
+managedMemory.allocate(type_size);
+  has a region with free memory?
+    fragmentation_pressure
+      high -> fit allocator
+        has enough subsequent free cells?
+          allocate here
 
-//arrays are structs
-Array {
-  pointer element_type;
-  pointer start;
-  pointer end;
-}
+      low -> bump allocator
+        is enough memory free at the end?
+          allocate here
 
-//slices are structs
-Slice {
-  pointer array;
-  pointer start;
-  pointer end;
-}
+  collection_pressure
+    high -> collect
+      do collection & start over
 
-
-```
-struct binary_tree {
-  pointer parent;
-  pointer child_a;
-  pointer child_b;
-}
-```
-
-```
-struct binary_tree {
-  binary_tree parent;
-  binary_tree child_a;
-  binary_tree child_b;
-}
-```
-
-myTreeElement.child_a = someOtherTreeElement;
-
-
-```
-struct Vector<T> {
-  pointer type_t;
-  pointer array_t;
-}
-```
-
-```
-struct LinkedList<T> {
-  pointer type_t;
-  pointer before;
-  pointer after;
-}
-```
-
-```
-struct LinkedList<T> {
-  LinkedList<T> before;
-  LinkedList<T> after;
-}
+    low -> create region
+      allocate new region
+        allocate in new region
 ```

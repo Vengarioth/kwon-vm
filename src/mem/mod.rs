@@ -3,3 +3,7 @@ pub mod constant_pool;
 pub mod object_pool;
 pub mod program;
 pub mod definitions;
+pub mod managed_memory;
+pub mod object_address_list;
+pub mod libc_allocator;
+pub mod util;
