@@ -38,9 +38,10 @@ impl<A: Allocator> ManagedMemory<A> {
     }
 
     pub fn allocate(&mut self, size: u32) -> Result<u32, &'static str> {
-        if(size < 1) {
+        if size < 1 {
             return Err("Size must be bigger than zero.");
         }
+
         let aligned_size = util::align(size, self.cell_size);
 
 

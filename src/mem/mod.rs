@@ -6,4 +6,5 @@ pub mod definitions;
 pub mod managed_memory;
 pub mod object_address_list;
 pub mod libc_allocator;
+pub mod region;
 pub mod util;

@@ -53,7 +53,7 @@ impl ObjectAddressList {
     }
 
     /// clears a stored object from this list
-    pub fn clear_object(&mut self, object_address: u32) -> Result<(), &'static str> {
+    pub fn clear_memory_address(&mut self, object_address: u32) -> Result<(), &'static str> {
         if object_address as usize >= self.addresses.len() ||
             self.addresses[object_address as usize].is_null() {
             return Err("object not found");
@@ -105,14 +105,14 @@ mod tests {
     }
 
     #[test]
-    fn it_clears_stored_objects() {
+    fn it_clears_stored_memory_addresses() {
         let mut address_list = ObjectAddressList::new();
         let x: u8 = 5;
         let mem_address = &x as *const u8;
 
         let address = address_list.store_memory_address(mem_address).unwrap();
 
-        address_list.clear_object(address);
+        address_list.clear_memory_address(address);
 
         assert_eq!(None, address_list.get_memory_address(address));
     }
