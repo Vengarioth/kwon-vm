@@ -1,3 +1,4 @@
+pub mod gc;
 pub mod register;
 pub mod constant_pool;
 pub mod object_pool;
@@ -8,3 +9,4 @@ pub mod object_address_list;
 pub mod libc_allocator;
 pub mod region;
 pub mod util;
+pub mod kwon_ptr;

@@ -1,3 +1,5 @@
+use region::Region;
+
 pub fn allocate_bump() -> Option<u32> {
     unimplemented!();
 }

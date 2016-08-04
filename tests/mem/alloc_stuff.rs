@@ -16,6 +16,12 @@ fn alloc_array() {
     let mut y = unsafe { *ptr };
     println!("{}", y);
 
+    y += 10;
+
+    println!("{}", y);
+
+    unsafe { *ptr = y };
+
     let mut z = unsafe { *ptr };
     println!("{}", z);
 
