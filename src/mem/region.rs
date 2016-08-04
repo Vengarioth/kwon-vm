@@ -26,6 +26,13 @@ pub struct Region {
 
 impl Region {
     pub fn new(cell_count: u32) -> Result<Region, &'static str> {
+        if cell_count < 64 {
+            return Err("cell_count must at least be 64");
+        }
+        if (cell_count & (cell_count - 1)) != 0 {
+            return Err("cell_count must be a power of two");
+        }
+
         let size_in_bytes = cell_count * CELL_SIZE_IN_BYTES;
         let required_meta_space: u32 = (cell_count as f32 / (CELL_SIZE_IN_BYTES as f32 * 4.0)).ceil() as u32;
         let meta_offset = required_meta_space * 2;
